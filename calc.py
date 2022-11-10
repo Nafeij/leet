@@ -61,47 +61,6 @@ class Term(Fact):
         match (self.left, self.right):
             case (Lit(), Lit()):
                 return Lit(OPS[self.val](self.left.val, self.right.val))
-            case (Var(val=v1), Var(val=v2)) if v1[-1] == v2[-1]:
-                fac1 = int(v1[:-1]) if len(v1) > 1 else 1
-                fac2 = int(v2[:-1]) if len(v2) > 1 else 1
-                fac3 = OPS[self.val](fac1, fac2)
-                match self.val:
-                    case '*':
-                        match fac3:
-                            case 1:
-                                return Var(v1[-1]).mul(Var(v1[-1]))  # TODO
-                            case 0:
-                                return Lit(0)
-                            case _:
-                                return Lit(fac3).mul(Var(v1[-1]).mul(Var(v1[-1])))  # TODO
-                    case '/':
-                        return Lit(fac3)
-                    case _:
-                        match fac3:
-                            case 1:
-                                return Var(v1[-1])
-                            case 0:
-                                return Lit(0)
-                            case _:
-                                return Var(str(fac3) + v1[-1])
-            case (Lit(val=v), fac) | (fac, Lit(val=v)) if v == 1 or v == 0:
-                if v == 1:
-                    if self.val in ('*', '/'):
-                        return fac
-                    else:
-                        return self
-                elif v == 0:
-                    if self.val in ('*', '/'):
-                        return Lit(0)
-                    else:
-                        return fac
-            case (Term(val=o1, left=l1, right=r1), fac) | (fac, Term(val=o1, left=l1, right=r1)) if (
-                    (o1 in ('+', '-') and self.val in ('+', '-')) or
-                    (o1 in ('*', '/') and self.val in ('*', '/'))):
-                if o1 in ('+', '*'):
-                    return l1.opr(o1, r1.opr(self.val, fac)).solve()
-                else:
-                    return l1.opr(self.val, r1.opr(o1, fac)).solve()
             case _:
                 return self
 
