@@ -1,22 +1,15 @@
-def solution(table):
-    res = []
-    for r in table:
-        res.append(['']*len(table[0]))
-
-    for i in range(len(table)):
-        for j in range(len(table[0])):
-            o = (i + 1) % 2
-            s = 2
-            res[o + j * s][i//2] = table[i][j]
+def solution(a, b):
+    if len(b) > len(a):
+        return solution(b,a)
+    b = b.zfill(len(a))
+    carry, res = 0, ''
+    for i in range(len(a)-1,-1,-1):
+        val = int(a[i]) + int(b[i]) + carry
+        res = str(val % 2) + res
+        carry = val > 1
+    if carry:
+        res = '1' + res
     return res
 
-
-
 if __name__ == '__main__':
-    t = [['a', 'b'],
-         ['c', 'd'],
-         ['e', 'f'],
-         ['g', 'h']]
-    sol = solution(t)
-    for r in sol:
-        print(r)
+    print(solution('1','1'))
