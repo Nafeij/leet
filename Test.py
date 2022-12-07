@@ -5,7 +5,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
 import unittest
-from calc import Lit, Var
+from Calc import Lit, Var
 
 
 # Test all functionality of the calculator, which is:

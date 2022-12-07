@@ -1,4 +1,8 @@
 class Solution:
+    '''
+    Partial match table from KMP
+    https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm
+    '''
     def matchTable(self, s: str) -> list[int]:
         f = [0] * len(s)
         for i in range(1, len(s)):
@@ -28,6 +32,9 @@ class Solution:
         print(len(s))
         return p
 
+    '''
+        Given a string s, return the shortest palindrome that can be constructed by appending letters
+    '''
     def shortestPalindrome(self, s: str) -> str:
         ns = s + '#' + s[::-1]
         t = self.matchTable(ns)

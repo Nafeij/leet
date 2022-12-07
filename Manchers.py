@@ -27,7 +27,10 @@ class Solution:
         for i in range(n - 2, -1, -1):
             arr[i] = max(arr[i], arr[i + 1] - 2)
         return list(accumulate(arr, max))
-
+    '''
+    Given a string s, find two non-intersecting palindromic substrings of odd length such that the product of their
+    lengths is maximized.
+    '''
     def maxProduct(self, s: str):
         m = self.manachers(s)
         t1, t2 = self.helper(m), self.helper(m[::-1])[::-1][1:] + [0]
