@@ -1,6 +1,9 @@
 
 plus = lambda x, y : x+y
 minus = lambda x, y : x-y
+def comb(x,y):
+    return x[0] + y[0], max(x[1],y[1])
+
 class SegTree:
     def __init__(self, ts, fn):
         self.n = len(ts)
@@ -16,7 +19,7 @@ class SegTree:
 
     def __setitem__(self, item, value):
         if isinstance(item, slice):
-            if isinstance(value, int):
+            if not isinstance(value, list):
                 value = [value] * (item.stop-item.start)
             item = slice(item.start + self.n, item.stop + self.n, item.step)
             self.t.__setitem__(item,value)
@@ -40,18 +43,28 @@ class SegTree:
             self.build()
         if not r:
             r = l+1
-        resl, resr = 0, 0
+        resl, resr = None, None
         l += self.n
         r += self.n
         while l < r:
             if l & 1:
-                resl = self.fn(resl, self.t[l])
+                if resl is None:
+                    resl = self.t[l]
+                else:
+                    resl = self.fn(resl, self.t[l])
                 l += 1
             if r & 1:
                 r -= 1
-                resr = self.fn(self.t[r], resr)
+                if resr is None:
+                    resr = self.t[r]
+                else:
+                    resr = self.fn(self.t[r], resr)
             l >>= 1
             r >>= 1
+        if resl is None:
+            return resr
+        if resr is None:
+            return resl
         return self.fn(resl, resr)
 
 
