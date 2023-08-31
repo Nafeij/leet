@@ -1,6 +1,6 @@
 def solution(table):
     res = []
-    for r in table:
+    for _ in table:
         res.append(['']*len(table[0]))
 
     for i in range(len(table)):
